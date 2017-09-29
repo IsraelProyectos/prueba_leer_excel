@@ -1,6 +1,7 @@
 
 import wx
 import openpyxl
+from openpyxl import load_workbook,Workbook
 
 class MyFrame(wx.Frame):
             def __init__(self, parent, title):
@@ -42,7 +43,15 @@ class MyFrame(wx.Frame):
               				self.registro_excel_final = [ ]
               			self.email = fila[2]
 
-                  print(self.registros_excel_final)
+                  # print(self.registros_excel_final)
+                  # print(len(self.registros_excel_final))
+                  wb=load_workbook('Book1.xlsx')
+                  ws=wb.get_sheet_by_name('Hoja1')
+                  for i, statN in enumerate(str(self.registros_excel_final)):
+                  		#print(i)
+                  		for registro in statN:
+                  			print(registro)
+                  			ws.cell(row=i+2, column=1).value = statN
 
             
 app = wx.App(False)
