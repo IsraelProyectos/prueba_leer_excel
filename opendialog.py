@@ -2,6 +2,7 @@
 import wx
 
 from openpyxl import *
+from openpyxl.styles import Color, PatternFill, Font, Border
 
 class MyFrame(wx.Frame):
             def __init__(self, parent, title):
@@ -28,8 +29,8 @@ class MyFrame(wx.Frame):
 						self.columna_excel.append(columna.value)
 					
 					#Guardando la lista dentro de otra lista para tener las filas separadas
-					if self.i !=0:
-						self.todas_columnas.append(self.columna_excel[0:-1])
+					# if self.i !=0:
+					self.todas_columnas.append(self.columna_excel[0:-1])
 					self.columna_excel = [ ]
 					self.i +=1
 
@@ -46,6 +47,7 @@ class MyFrame(wx.Frame):
               				self.registro_excel_final.append(fila)
               				self.registros_excel_final.append(self.registro_excel_final[-1])
               				self.registro_excel_final = [ ]
+
               			#Guardando el mail de la fila insertada anteriormente para aplicar la comparacion
               			self.email = fila[2]
 
@@ -63,6 +65,9 @@ class MyFrame(wx.Frame):
                   		self.z+=1
 
                   #Guardando el WorkBook en la raiz de la aplicacion
+                  hoja1['A1'].fill = PatternFill(bgColor="DCDCDC", fill_type = "solid")
+                  
+                  
                   book.save('regalos_concesionarios.xlsx')
                
 
