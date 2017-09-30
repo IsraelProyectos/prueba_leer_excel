@@ -61,11 +61,16 @@ class MyFrame(wx.Frame):
                   		for reg in regs:
                   			#print(reg)
                   			celda = hoja1.cell(row=self.z, column=y).value = reg
+                  			if self.z == 1:
+                  				x=1
+                  				for celda in reg:
+                  					greyFill = PatternFill(start_color='A9A9A9', end_color='A9A9A9', fill_type='solid')
+                 					hoja1.cell(row=1, column=x).fill = greyFill
+                 					x+=1
                   			y+=1
                   		self.z+=1
 
                   #Guardando el WorkBook en la raiz de la aplicacion
-                  hoja1['A1'].fill = PatternFill(bgColor="DCDCDC", fill_type = "solid")
                   
                   
                   book.save('regalos_concesionarios.xlsx')
