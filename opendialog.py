@@ -9,12 +9,14 @@ class MyFrame(wx.Frame):
                   wx.Frame.__init__(self, parent, title=title, size=(500,200))
 
                   self.pathFile = ''
-                  self.txtRuta = wx.TextCtrl(self, pos=(80,50), size=(150,20))
+                  self.txtRuta = wx.TextCtrl(self, pos=(80,50), size=(150,20), style=wx.TE_READONLY)
                   self.buttonFind = wx.Button(self, label="Buscar...", pos=(260,50), size=(100,20))
                   self.buttonFind.Bind(wx.EVT_BUTTON, self.openFile)
                   self.buttonExecute = wx.Button(self, label="Convertir", pos=(260,100), size=(100,20))
                   self.buttonExecute.Bind(wx.EVT_BUTTON, self.createExcel)
-                  self.doSaveData=''
+                  self.labelEstadoOperacion= wx.StaticText(self, pos=(80,130), size=(280,20), style=wx.TE_READONLY)
+                  #self.labelEstadoOperacion.SetBackgroundColour( wx.Colour( 255, 255, 255 ))
+                  self.labelEstadoOperacion.SetForegroundColour( wx.Colour( 0, 138, 0))
                   self.columna_excel = [ ]
                   self.todas_columnas = [ ]
                   self.registro_excel_final = [ ]
@@ -26,10 +28,12 @@ class MyFrame(wx.Frame):
 
             def createExcel(self, e):
 
-            	  #Cargando fichero desde textBox, obtenido de openFileDialog
 				try:
+					#Cargando fichero desde textBox, obtenido de openFileDialog
 					doc = load_workbook(self.pathFile)
-					hoja = doc.get_sheet_by_name('Ventas AO y AOA')
+					hoja = doc.worksheets[0]
+					#hoja = doc.get_sheet_names()
+					print(hoja)
 
 
 					#Leyendo filas del excel y guardandola en una lista
@@ -61,7 +65,7 @@ class MyFrame(wx.Frame):
 							#Guardando el mail de la fila insertada anteriormente para aplicar la comparacion
 							self.email = fila[0]
 
-					  #Creando el excel de salida
+					#Creando el excel de salida
 					book = Workbook()
 					hoja1 = book.active
 
@@ -79,20 +83,22 @@ class MyFrame(wx.Frame):
 										x+=1
 								y+=1
 							self.z+=1
-					#Guardando el WorkBook en la raiz de la aplicacion
+					#Guardando el WorkBook donde seleccione el Usuario
 					with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
 					   style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
 					  if fileDialog.ShowModal() == wx.ID_CANCEL:
 					  	return
-					  # save the current contents in the file
+					  #Guardando en variable el path de donde se quiere guardar el archivo
 					  pathname = fileDialog.GetPath()
 					  try:
 					  	with open(pathname, 'w') as file:
 					  		book.save(pathname)
 					  except IOError:
 					  	wx.LogError("Cannot save current data in file '%s'." % pathname)
+					  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
 				except KeyError:
-					print("El fichero cargado no es correcto")
+					self.labelEstadoOperacion.SetForegroundColour( wx.Colour( 255, 0, 0))
+					self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
             
             def openFile(self, e):
 				try:
