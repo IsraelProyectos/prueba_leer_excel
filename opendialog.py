@@ -14,9 +14,10 @@ class MyFrame(wx.Frame):
                   self.buttonFind.Bind(wx.EVT_BUTTON, self.openFile)
                   self.buttonExecute = wx.Button(self, label="Convertir", pos=(260,100), size=(100,20))
                   self.buttonExecute.Bind(wx.EVT_BUTTON, self.createExcel)
+                  self.buttonExecute.Disable()
                   self.labelEstadoOperacion= wx.StaticText(self, pos=(80,130), size=(280,20), style=wx.TE_READONLY)
-                  #self.labelEstadoOperacion.SetBackgroundColour( wx.Colour( 255, 255, 255 ))
                   self.labelEstadoOperacion.SetForegroundColour( wx.Colour( 0, 138, 0))
+
                   self.columna_excel = [ ]
                   self.todas_columnas = [ ]
                   self.registro_excel_final = [ ]
@@ -112,15 +113,15 @@ class MyFrame(wx.Frame):
 
 				        #Guardando el path del archivo en variable
 				        self.pathFile = fileDialog.GetPath()
+
 				        #Asignando ese path al textBox
-				        
-				        #print(self.pathFile)
 				        try:
 				            self.txtRuta.SetValue(self.pathFile)
+				            self.buttonExecute.Enable()
 				        except IOError:
 							wx.LogError("Cannot open file '%s'." % newfile)
 				except Keyerror:
 					print(err)
 app = wx.App(False)
-frame = MyFrame(None, 'Cambiar CSV')
+frame = MyFrame(None, 'Creacion Fichero Excel')
 app.MainLoop()
