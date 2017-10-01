@@ -38,14 +38,6 @@ class MyFrame(wx.Frame):
 					#Cargando fichero desde textBox, obtenido de openFileDialog
 					doc = load_workbook(self.pathFile)
 					hoja = doc.worksheets[0]
-					#hoja = doc.get_sheet_names()
-					# for sheet in hoja:
-					# 	print(hoja)
-					
-
-					# print doc.get_sheet_names()
-					#print(hoja)
-
 
 					#Leyendo filas del excel y guardandola en una lista
 					for fila in hoja.rows:
@@ -53,7 +45,6 @@ class MyFrame(wx.Frame):
 							self.columna_excel.append(columna.value)
 
 						#Guardando la lista dentro de otra lista para tener las filas separadas
-						# if self.i !=0:
 						self.todas_columnas.append(self.columna_excel[0:-1])
 						self.columna_excel = [ ]
 						self.i +=1
@@ -61,6 +52,7 @@ class MyFrame(wx.Frame):
 					#Juntado los registros por email
 					for fila in self.todas_columnas:
 							fila = [fila[2], fila[1], fila[0], fila[3], fila[4], fila[5], fila[6]]
+
 							#La primera comparacion siempre sera nula e ira al else
 							if self.email == fila[0]:
 								#Anadiendo cod_instalacion, objetivoAO y objetivoAOA al registro con el mismo mail
@@ -119,11 +111,12 @@ class MyFrame(wx.Frame):
             def openFile(self, e):
 				try:
 					self.labelEstadoOperacion.SetLabel("")
+
 	            	#Creando la ventana para escoger el archivo. Solo para archivos con extension .xlsx(Archivo excel 2010)
 					with wx.FileDialog(self, "Abrir archivo .xlsx", wildcard="XLSX files (*.xlsx)|*.xlsx",
 						style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
-						#Creando opciones de la ventana(Abrir y Cancelar)
+						#Cerrar ventana de diálogo al dar a cancelar
 						if fileDialog.ShowModal() == wx.ID_CANCEL:
 							return
 
