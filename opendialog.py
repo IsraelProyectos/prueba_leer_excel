@@ -1,6 +1,7 @@
+#!/usr/bin/env python
+#coding=utf-8
 
 import wx
-
 from openpyxl import *
 from openpyxl.styles import Color, PatternFill, Font, Border
 
@@ -107,13 +108,13 @@ class MyFrame(wx.Frame):
 					self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
 				except IndexError:
 					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
-					self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es valido")
+					self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es válido")
 
             
             def openFile(self, e):
 				try:
 	            	#Creando la ventana para escoger el archivo. Solo para archivos con extension .xlsx(Archivo excel 2010)
-					with wx.FileDialog(self, "Open XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
+					with wx.FileDialog(self, "Abrir archivo .xlsx", wildcard="XLSX files (*.xlsx)|*.xlsx",
 						style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
 						#Creando opciones de la ventana(Abrir o Cancelar)
