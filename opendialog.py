@@ -34,7 +34,12 @@ class MyFrame(wx.Frame):
 					doc = load_workbook(self.pathFile)
 					hoja = doc.worksheets[0]
 					#hoja = doc.get_sheet_names()
-					print(hoja)
+					# for sheet in hoja:
+					# 	print(hoja)
+					
+
+					# print doc.get_sheet_names()
+					#print(hoja)
 
 
 					#Leyendo filas del excel y guardandola en una lista
@@ -98,8 +103,12 @@ class MyFrame(wx.Frame):
 					  	wx.LogError("Cannot save current data in file '%s'." % pathname)
 					  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
 				except KeyError:
-					self.labelEstadoOperacion.SetForegroundColour( wx.Colour( 255, 0, 0))
+					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
 					self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
+				except IndexError:
+					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
+					self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es valido")
+
             
             def openFile(self, e):
 				try:
