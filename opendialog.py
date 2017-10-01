@@ -7,17 +7,19 @@ from openpyxl.styles import Color, PatternFill, Font, Border
 
 class MyFrame(wx.Frame):
             def __init__(self, parent, title):
-                  wx.Frame.__init__(self, parent, title=title, size=(500,200))
+                  wx.Frame.__init__(self, parent, title=title, size=(400,200))
 
                   self.pathFile = ''
-                  self.txtRuta = wx.TextCtrl(self, pos=(80,50), size=(150,20), style=wx.TE_READONLY)
-                  self.buttonFind = wx.Button(self, label="Buscar...", pos=(260,50), size=(100,20))
+                  self.txtRuta = wx.TextCtrl(self, pos=(10,50), size=(250,20), style=wx.TE_READONLY)
+                  self.buttonFind = wx.Button(self, label="Buscar...", pos=(270,50), size=(100,20))
                   self.buttonFind.Bind(wx.EVT_BUTTON, self.openFile)
-                  self.buttonExecute = wx.Button(self, label="Convertir", pos=(260,100), size=(100,20))
+                  self.buttonExecute = wx.Button(self, label="Convertir", pos=(270,100), size=(100,20))
                   self.buttonExecute.Bind(wx.EVT_BUTTON, self.createExcel)
                   self.buttonExecute.Disable()
-                  self.labelEstadoOperacion= wx.StaticText(self, pos=(80,130), size=(280,20), style=wx.TE_READONLY)
-                  self.labelEstadoOperacion.SetForegroundColour( wx.Colour( 0, 138, 0))
+                  self.labelEstadoOperacion= wx.StaticText(self, pos=(10,130), size=(360,20), style=wx.TE_READONLY)
+                  # self.labelEstadoOperacion.SetBackgroundColour( wx.Colour( 255, 255, 255))
+                  self.labelEstadoOperacion.SetForegroundColour(wx.Colour( 0, 138, 0))
+                  
 
                   self.columna_excel = [ ]
                   self.todas_columnas = [ ]
@@ -26,6 +28,8 @@ class MyFrame(wx.Frame):
                   self.email = ""
                   self.i = 0
                   self.z = 1
+                  self.Centre(True)
+                  self.SetBackgroundColour(wx.Colour( 252, 255, 228))
                   self.Show(True)
 
             def createExcel(self, e):
@@ -102,6 +106,7 @@ class MyFrame(wx.Frame):
 					  		book.save(pathname)
 					  except IOError:
 					  	wx.LogError("Cannot save current data in file '%s'." % pathname)
+					  self.labelEstadoOperacion.SetForegroundColour(wx.Colour( 0, 138, 0))
 					  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
 				except KeyError:
 					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
@@ -113,11 +118,12 @@ class MyFrame(wx.Frame):
             
             def openFile(self, e):
 				try:
+					self.labelEstadoOperacion.SetLabel("")
 	            	#Creando la ventana para escoger el archivo. Solo para archivos con extension .xlsx(Archivo excel 2010)
 					with wx.FileDialog(self, "Abrir archivo .xlsx", wildcard="XLSX files (*.xlsx)|*.xlsx",
 						style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
-						#Creando opciones de la ventana(Abrir o Cancelar)
+						#Creando opciones de la ventana(Abrir y Cancelar)
 						if fileDialog.ShowModal() == wx.ID_CANCEL:
 							return
 
@@ -133,5 +139,5 @@ class MyFrame(wx.Frame):
 				except Keyerror:
 					print(err)
 app = wx.App(False)
-frame = MyFrame(None, 'Creacion Fichero Excel')
+frame = MyFrame(None, 'Creación Fichero Excel')
 app.MainLoop()
