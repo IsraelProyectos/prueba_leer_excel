@@ -45,20 +45,29 @@ class MyFrame(wx.Frame):
 							self.columna_excel.append(columna.value)
 
 						#Guardando la lista dentro de otra lista para tener las filas separadas
+						#print(self.columna_excel[8])
 						self.todas_columnas.append(self.columna_excel[0:-1])
 						self.columna_excel = [ ]
 						self.i +=1
+					a=2
+					z=3
+					l=4	
 
 					#Juntado los registros por email
 					for fila in self.todas_columnas:
-							fila = [fila[2], fila[1], fila[0], fila[3], fila[4], fila[5], fila[6]]
-
+							fila = [fila[2], fila[0], fila[1], fila[4], fila[5], fila[6], fila[7], fila[3]]
+							
 							#La primera comparacion siempre sera nula e ira al else
 							if self.email == fila[0]:
 								#Anadiendo cod_instalacion, objetivoAO y objetivoAOA al registro con el mismo mail
-								self.registros_excel_final[-1][2] = self.registros_excel_final[-1][2] + "; " + fila[2]
-								self.registros_excel_final[-1][3] = str(self.registros_excel_final[-1][3]) + "; " + str(fila[3])
-								self.registros_excel_final[-1][4] = str(self.registros_excel_final[-1][4]) + "; " + str(fila[4])
+								print(fila)
+								self.registros_excel_final.insert(a, fila[1])
+								# self.registros_excel_final.insert(z, fila[4])
+								# self.registros_excel_final.insert(l, fila[3])
+								# self.registros_excel_final[-1][1] = self.registros_excel_final[-1][1] + "; " + fila[1]
+								# self.registros_excel_final[-1][3] = str(self.registros_excel_final[-1][4]) + "; " + str(fila[4])
+								# self.registros_excel_final[-1][4] = str(self.registros_excel_final[-1][3]) + "; " + str(fila[3])
+
 							else:
 								#Anadiendo fila nueva
 								self.registro_excel_final.append(fila)
@@ -67,10 +76,18 @@ class MyFrame(wx.Frame):
 
 							#Guardando el mail de la fila insertada anteriormente para aplicar la comparacion
 							self.email = fila[0]
+							a=a+1
+							z=z+1
+							l=l+1
 
+					#print(self.registros_excel_final)
 					#Creando el excel de salida
 					book = Workbook()
 					hoja1 = book.active
+
+					# for countRegistro in self.registros_excel_final:
+					# 	for countReg in countRegistro:
+					# 		print(len(countRegistro[2]))
 
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
 					for regs in self.registros_excel_final:
@@ -86,6 +103,7 @@ class MyFrame(wx.Frame):
 										x+=1
 								y+=1
 							self.z+=1
+					print(self.registros_excel_final)
 					#Guardando el WorkBook donde seleccione el Usuario
 					with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
 					   style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
