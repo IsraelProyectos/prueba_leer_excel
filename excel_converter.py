@@ -34,7 +34,7 @@ class MyFrame(wx.Frame):
 
             def createExcel(self, e):
 
-				#try:
+				try:
 					#Cargando fichero desde textBox, obtenido de openFileDialog
 					doc = load_workbook(self.pathFile)
 					hoja = doc.worksheets[0]
@@ -47,7 +47,7 @@ class MyFrame(wx.Frame):
 						if i != 0:
 
 							for columna in fila:
-								self.columna_excel.append(str(columna.value))
+								self.columna_excel.append(columna.value)
 							
 
 							#Guardando la lista dentro de otra lista para tener las filas separadas
@@ -77,9 +77,12 @@ class MyFrame(wx.Frame):
 							i=i+1
 							z=5
 							r=6
+						print(len(self.registros_excel_final[i]))
+					print(i)
 
-							
-					print(self.registros_excel_final)
+					
+					# print(len(self.registros_excel_final))
+					# print(self.registros_excel_final)
 
 
 
@@ -126,51 +129,51 @@ class MyFrame(wx.Frame):
 				# 			#Guardando el mail de la fila insertada anteriormente para aplicar la comparacion
 				# 			self.email = fila[2]
 				# 	print(exc)
-				# 	#print(self.registros_excel_final)
-				# 	#Creando el excel de salida
-				# 	book = Workbook()
-				# 	hoja1 = book.active
+					#print(self.registros_excel_final)
+					#Creando el excel de salida
+					book = Workbook()
+					hoja1 = book.active
 
-				# 	# for countRegistro in self.registros_excel_final:
-				# 	# 	for countReg in countRegistro:
-				# 	# 		print(len(countRegistro[2]))
+					# for countRegistro in self.registros_excel_final:
+					# 	for countReg in countRegistro:
+					# 		print(len(countRegistro[2]))
 
-				# 	#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
-				# 	for regs in self.registros_excel_final:
-				# 			print(regs)
-				# 			y=1
-				# 			for reg in regs:
-				# 				#print(reg)
-				# 				celda = hoja1.cell(row=self.z, column=y).value = reg
-				# 				if self.z == 1:
-				# 					x=1
-				# 					for celda in reg:
-				# 						greyFill = PatternFill(start_color='A9A9A9', end_color='A9A9A9', fill_type='solid')
-				# 						hoja1.cell(row=1, column=x).fill = greyFill
-				# 						x+=1
-				# 				y+=1
-				# 			self.z+=1
+					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
+					for regs in self.registros_excel_final:
+							#print(regs)
+							y=1
+							for reg in regs:
+								#print(reg)
+								celda = hoja1.cell(row=self.z, column=y).value = reg
+								# if self.z == 1:
+								# 	x=1
+								# 	for celda in reg:
+								# 		greyFill = PatternFill(start_color='A9A9A9', end_color='A9A9A9', fill_type='solid')
+								# 		hoja1.cell(row=1, column=x).fill = greyFill
+								# 		x+=1
+								y+=1
+							self.z+=1
 				# 	#print(self.registros_excel_final)
-				# 	#Guardando el WorkBook donde seleccione el Usuario
-				# 	with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
-				# 	   style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
-				# 	  if fileDialog.ShowModal() == wx.ID_CANCEL:
-				# 	  	return
-				# 	  #Guardando en variable el path de donde se quiere guardar el archivo
-				# 	  pathname = fileDialog.GetPath()
-				# 	  try:
-				# 	  	with open(pathname, 'w') as file:
-				# 	  		book.save(pathname)
-				# 	  except IOError:
-				# 	  	wx.LogError("Cannot save current data in file '%s'." % pathname)
-				# 	  self.labelEstadoOperacion.SetForegroundColour(wx.Colour( 0, 138, 0))
-				# 	  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
-				# except KeyError:
-				# 	self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
-				# 	self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
-				# except IndexError:
-				# 	self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
-				# 	self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es válido")
+					#Guardando el WorkBook donde seleccione el Usuario
+					with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
+					   style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
+					  if fileDialog.ShowModal() == wx.ID_CANCEL:
+					  	return
+					  #Guardando en variable el path de donde se quiere guardar el archivo
+					  pathname = fileDialog.GetPath()
+					  try:
+					  	with open(pathname, 'w') as file:
+					  		book.save(pathname)
+					  except IOError:
+					  	wx.LogError("Cannot save current data in file '%s'." % pathname)
+					  self.labelEstadoOperacion.SetForegroundColour(wx.Colour( 0, 138, 0))
+					  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
+				except KeyError:
+					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
+					self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
+				except IndexError:
+					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
+					self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es válido")
 
             
             def openFile(self, e):
