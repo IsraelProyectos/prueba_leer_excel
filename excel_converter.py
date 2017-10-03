@@ -34,7 +34,7 @@ class MyFrame(wx.Frame):
 
             def createExcel(self, e):
 
-				try:
+				#try:
 					#Cargando fichero desde textBox, obtenido de openFileDialog
 					doc = load_workbook(self.pathFile)
 					hoja = doc.worksheets[0]
@@ -59,20 +59,25 @@ class MyFrame(wx.Frame):
 						i=i+1
 					#print(self.todas_columnas)
 					email=''
-					i=0
-					z=4
+					i=-1
+					z=5
 					r=6
 					for registro in self.todas_columnas:
 						if email == registro[2]:
+							# print(registro[0])
+							# print(self.registros_excel_final[i][0])
 							self.registros_excel_final[i].insert(0, registro[0])
-							self.registros_excel_final[i].insert(z, registro[3])
-							self.registros_excel_final[i].insert(r, registro[4])
-							i=i+1
+							self.registros_excel_final[i].insert(r, registro[5])
+							self.registros_excel_final[i].insert(z, registro[4])
 							z=z+1
-							r=r+1
+							r=r+2
 						else:
 							self.registros_excel_final.append(registro)
 							email=registro[2]
+							i=i+1
+							z=5
+							r=6
+
 							
 					print(self.registros_excel_final)
 
@@ -160,12 +165,12 @@ class MyFrame(wx.Frame):
 				# 	  	wx.LogError("Cannot save current data in file '%s'." % pathname)
 				# 	  self.labelEstadoOperacion.SetForegroundColour(wx.Colour( 0, 138, 0))
 				# 	  self.labelEstadoOperacion.SetLabel("El fichero se ha creado correctamente")
-				except KeyError:
-					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
-					self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
-				except IndexError:
-					self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
-					self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es válido")
+				# except KeyError:
+				# 	self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
+				# 	self.labelEstadoOperacion.SetLabel("No se ha podido crear el fichero")
+				# except IndexError:
+				# 	self.labelEstadoOperacion.SetForegroundColour(wx.Colour(255, 0, 0))
+				# 	self.labelEstadoOperacion.SetLabel("El formato de celdas del documento no es válido")
 
             
             def openFile(self, e):
