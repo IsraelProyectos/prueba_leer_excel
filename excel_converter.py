@@ -4,6 +4,7 @@
 import wx
 from openpyxl import *
 from openpyxl.styles import Color, PatternFill, Font, Border
+import unicodedata
 
 class MyFrame(wx.Frame):
             def __init__(self, parent, title):
@@ -48,6 +49,22 @@ class MyFrame(wx.Frame):
 
 							for columna in fila:
 								self.columna_excel.append(columna.value)
+
+							self.columna_excel.insert(1, ' ')
+							self.columna_excel.insert(2, ' ')
+							self.columna_excel.insert(3, ' ')
+							self.columna_excel.insert(4, ' ')
+
+							self.columna_excel.insert(9, ' ')
+							self.columna_excel.insert(10, ' ')
+							self.columna_excel.insert(11, ' ')
+							self.columna_excel.insert(12, ' ')
+
+							self.columna_excel.insert(14, ' ')
+							self.columna_excel.insert(15, ' ')
+							self.columna_excel.insert(16, ' ')
+							self.columna_excel.insert(17, ' ')
+							
 							
 
 							#Guardando la lista dentro de otra lista para tener las filas separadas
@@ -57,27 +74,42 @@ class MyFrame(wx.Frame):
 							self.i +=1
 					
 						i=i+1
-					#print(self.todas_columnas)
-					email=''
+					#print(self.todas_columnas[0])
+					email='hola'
 					i=-1
-					z=5
-					r=6
+					y=1
+					x=9
+					w=14
+					nombreImpacto=''
 					for registro in self.todas_columnas:
-						if email == registro[2]:
+						#print(registro)
+						if email == registro[6]:
 							# print(registro[0])
 							# print(self.registros_excel_final[i][0])
-							self.registros_excel_final[i].insert(0, registro[0])
-							self.registros_excel_final[i].insert(r, registro[5])
-							self.registros_excel_final[i].insert(z, registro[4])
-							z=z+1
-							r=r+2
+							self.registros_excel_final[i][y] = registro[0]
+							self.registros_excel_final[i][x] = registro[8]
+							self.registros_excel_final[i][w] = registro[13]
+
+							if registro[7] != nombreImpacto:
+								self.registros_excel_final[i][7] = ''
+							
+							x=x+1
+							y=y+1
+							w=w+1
 						else:
+							#print(registro)
 							self.registros_excel_final.append(registro)
-							email=registro[2]
+							email=registro[6]
+							#print(email)
+							nombreImpacto=registro[7]
+							nombreImpacto.lower()
+							print(nombreImpacto)
 							i=i+1
-							z=5
-							r=6
-						print(len(self.registros_excel_final[i]))
+							y=1
+							x=9
+							w=14
+
+						#print(self.registros_excel_final[0])
 					print(i)
 
 					
