@@ -26,9 +26,13 @@ class MyFrame(wx.Frame):
                   self.todas_columnas = [ ]
                   self.registro_excel_final = [ ]
                   self.registros_excel_final =[ ]
+                  self.fields = ['EMAIL', 'CODIGO_1', 'CODIGO_2', 'CODIGO_3', 'CODIGO_4', 'CODIGO_5', 'NOMBRE_CODIGO',	
+										  'OBJ_AO_1', 'OBJ_AO_2', 'OBJ_AO_3', 'OBJ_AO_4', 'OBJ_AO_5', 
+										  'OBJ_AOA_1', 'OBJ_AOA_2',	'OBJ_AOA_3', 'OBJ_AOA_4', 'OBJ_AOA_5',	
+										  'EMAIL_CC', 'EMAIL_REMITENTE', 'EMAIL_CONTACTO', 'NOMBRE']
                   self.email = ""
                   self.i = 0
-                  self.z = 1
+                  self.z = 2
                   self.Centre(True)
                   self.SetBackgroundColour(wx.Colour( 252, 255, 228))
                   self.Show(True)
@@ -76,7 +80,7 @@ class MyFrame(wx.Frame):
 							self.i +=1
 					
 						i=i+1
-					print(self.todas_columnas)
+					#print(self.todas_columnas)
 					email='hola'
 					i=-1
 					y=1
@@ -125,33 +129,45 @@ class MyFrame(wx.Frame):
 					# 		print(len(countRegistro[2]))
 
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
+					insercionExcel = 0
 					for regs in self.registros_excel_final:
-							regs = 	[regs[6],
-									regs[0],
-									regs[1],
-									regs[2],
-									regs[3],
-									regs[4],
-									regs[5],
-									regs[13],
-									regs[14],
-									regs[15],
-									regs[16],
-									regs[17],
-									regs[8],
-									regs[9],
-									regs[10],
-									regs[11],
-									regs[12],
-									regs[18],
-									regs[19],
-									regs[7]]
-							y=1
-							for reg in regs:
-								#print(reg)
-								celda = hoja1.cell(row=self.z, column=y).value = reg
-								y+=1
-							self.z+=1
+							if insercionExcel != 0:
+								regs = 	[regs[6],
+										regs[0],
+										regs[1],
+										regs[2],
+										regs[3],
+										regs[4],
+										regs[5],
+										regs[13],
+										regs[14],
+										regs[15],
+										regs[16],
+										regs[17],
+										regs[8],
+										regs[9],
+										regs[10],
+										regs[11],
+										regs[12],
+										regs[18],
+										regs[19],
+										regs[7]]
+								y=1
+								for reg in regs:
+									#print(reg)
+									celda = hoja1.cell(row=self.z, column=y).value = reg
+									y+=1
+								self.z+=1
+							else:
+								sig=1
+								for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
+										  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
+										  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
+										  self.fields[17], self.fields[18], self.fields[19], self.fields[20]]:
+										  celda = hoja1.cell(row=1, column=sig).value = i
+										  sig=sig+1
+								insercionExcel+=1
+
 					#print(self.registros_excel_final)
 					#Guardando el WorkBook donde seleccione el Usuario
 					with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
