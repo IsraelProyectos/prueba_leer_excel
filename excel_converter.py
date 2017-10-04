@@ -64,17 +64,19 @@ class MyFrame(wx.Frame):
 							self.columna_excel.insert(15, ' ')
 							self.columna_excel.insert(16, ' ')
 							self.columna_excel.insert(17, ' ')
+
+							
 							
 							
 
 							#Guardando la lista dentro de otra lista para tener las filas separadas
 							#print(self.columna_excel[8])
-							self.todas_columnas.append(self.columna_excel[0:-1])
+							self.todas_columnas.append(self.columna_excel)
 							self.columna_excel = [ ]
 							self.i +=1
 					
 						i=i+1
-					#print(self.todas_columnas[0])
+					print(self.todas_columnas)
 					email='hola'
 					i=-1
 					y=1
@@ -90,7 +92,7 @@ class MyFrame(wx.Frame):
 							self.registros_excel_final[i][x] = registro[8]
 							self.registros_excel_final[i][w] = registro[13]
 
-							if registro[7] != nombreImpacto:
+							if registro[7].title() != nombreImpacto.title():
 								self.registros_excel_final[i][7] = ''
 							
 							x=x+1
@@ -98,12 +100,14 @@ class MyFrame(wx.Frame):
 							w=w+1
 						else:
 							#print(registro)
-							self.registros_excel_final.append(registro)
+							
 							email=registro[6]
 							#print(email)
-							nombreImpacto=registro[7]
-							nombreImpacto.lower()
-							print(nombreImpacto)
+							if registro[7] is not None:
+								registro[7] = registro[7].title()
+								nombreImpacto=registro[7].title()
+							self.registros_excel_final.append(registro)
+							# print(nombreImpacto)
 							i=i+1
 							y=1
 							x=9
@@ -112,56 +116,6 @@ class MyFrame(wx.Frame):
 						#print(self.registros_excel_final[0])
 					print(i)
 
-					
-					# print(len(self.registros_excel_final))
-					# print(self.registros_excel_final)
-
-
-
-
-
-
-
-					#print(len(self.todas_columnas))
-				# 	a=0
-				# 	z=7
-				# 	l=11	
-				# 	exc = ['cod_1','cod_2','cod_3','cod_4','cod_5','conc','mail','ao1','ao2','ao3','ao4','ao5','aoa1','aoa2','aoa3','aoa4','aoa5','cc','er','ec']
-				# 	#Juntado los registros por email
-				# 	for fila in self.todas_columnas:
-				# 			#La primera comparacion siempre sera nula e ira al else
-							
-				# 			if self.email == fila[2]:
-								
-				# 				#Anadiendo cod_instalacion, objetivoAO y objetivoAOA al registro con el mismo mail
-				# 				exc[a] = fila[0]
-				# 				exc[z] = fila[3]
-				# 				exc[l] = fila[4]
-				# 				# self.registros_excel_final.insert(a, fila[0])
-				# 				# self.registros_excel_final.insert(z, fila[3])
-				# 				# self.registros_excel_final.insert(l, fila[4])
-				# 				# self.registros_excel_final[-1][0] = self.registros_excel_final[-1][0] + "; " + fila[0]
-				# 				# self.registros_excel_final[-1][3] = str(self.registros_excel_final[-1][3]) + "; " + str(fila[3])
-				# 				# self.registros_excel_final[-1][4] = str(self.registros_excel_final[-1][4]) + "; " + str(fila[4])
-				# 				a=a+1
-				# 				z=z+1
-				# 				l=l+1
-
-				# 			else:
-				# 				#Anadiendo fila nueva
-				# 				exc.append(fila)
-				# 				#self.registro_excel_final.append(fila)
-				# 				self.registros_excel_final.append(exc[-1])
-				# 				#self.registros_excel_final.append(self.registro_excel_final[-1])
-				# 				self.registro_excel_final = [ ]
-				# 				a=0
-				# 				z=7
-				# 				l=11
-
-				# 			#Guardando el mail de la fila insertada anteriormente para aplicar la comparacion
-				# 			self.email = fila[2]
-				# 	print(exc)
-					#print(self.registros_excel_final)
 					#Creando el excel de salida
 					book = Workbook()
 					hoja1 = book.active
@@ -172,20 +126,33 @@ class MyFrame(wx.Frame):
 
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
 					for regs in self.registros_excel_final:
-							#print(regs)
+							regs = 	[regs[6],
+									regs[0],
+									regs[1],
+									regs[2],
+									regs[3],
+									regs[4],
+									regs[5],
+									regs[13],
+									regs[14],
+									regs[15],
+									regs[16],
+									regs[17],
+									regs[8],
+									regs[9],
+									regs[10],
+									regs[11],
+									regs[12],
+									regs[18],
+									regs[19],
+									regs[7]]
 							y=1
 							for reg in regs:
 								#print(reg)
 								celda = hoja1.cell(row=self.z, column=y).value = reg
-								# if self.z == 1:
-								# 	x=1
-								# 	for celda in reg:
-								# 		greyFill = PatternFill(start_color='A9A9A9', end_color='A9A9A9', fill_type='solid')
-								# 		hoja1.cell(row=1, column=x).fill = greyFill
-								# 		x+=1
 								y+=1
 							self.z+=1
-				# 	#print(self.registros_excel_final)
+					#print(self.registros_excel_final)
 					#Guardando el WorkBook donde seleccione el Usuario
 					with wx.FileDialog(self, "Save XLSX file", wildcard="XLSX files (*.xlsx)|*.xlsx",
 					   style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
