@@ -146,7 +146,7 @@ class MyFrame(wx.Frame):
 					for regs in self.registros_excel_final:
 							if insercionExcel != 0:
 
-								regs = 	[regs[10], #email
+								regsInverse = 	[regs[10], #email
 											#cod_instalacion
 										 regs[0],
 										 regs[1],
@@ -181,9 +181,9 @@ class MyFrame(wx.Frame):
 										 regs[23],
 										 regs[24],
 										 regs[11]]
-								print(regs)
+								print(regsInverse)
 								y=1
-								for reg in regs:
+								for reg in regsInverse:
 									#print(reg)
 									celda = hoja1.cell(row=self.z, column=y).value = reg
 									y+=1
