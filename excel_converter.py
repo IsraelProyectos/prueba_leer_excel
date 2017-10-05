@@ -131,6 +131,7 @@ class MyFrame(wx.Frame):
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
 					insercionExcel = 0
 					for regs in self.registros_excel_final:
+							print(regs[20])
 							if insercionExcel != 0:
 								regs = 	[regs[6],
 										regs[0],
@@ -153,6 +154,7 @@ class MyFrame(wx.Frame):
 										regs[19],
 										regs[7]]
 								y=1
+								#print(regs[19])
 								for reg in regs:
 									#print(reg)
 									celda = hoja1.cell(row=self.z, column=y).value = reg
