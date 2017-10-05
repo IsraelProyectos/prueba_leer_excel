@@ -26,7 +26,8 @@ class MyFrame(wx.Frame):
                   self.todas_columnas = [ ]
                   self.registro_excel_final = [ ]
                   self.registros_excel_final =[ ]
-                  self.fields = ['EMAIL', 'CODIGO_1', 'CODIGO_2', 'CODIGO_3', 'CODIGO_4', 'CODIGO_5', 'NOMBRE_CODIGO',	
+                  self.fields = ['EMAIL', 'CODIGO_1', 'CODIGO_2', 'CODIGO_3', 'CODIGO_4', 'CODIGO_5', 'NOMBRE_CODIGO_1',
+                  						  'NOMBRE_CODIGO_2', 'NOMBRE_CODIGO_3', 'NOMBRE_CODIGO_4', 'NOMBRE_CODIGO_5' 	
 										  'OBJ_AO_1', 'OBJ_AO_2', 'OBJ_AO_3', 'OBJ_AO_4', 'OBJ_AO_5', 
 										  'OBJ_AOA_1', 'OBJ_AOA_2',	'OBJ_AOA_3', 'OBJ_AOA_4', 'OBJ_AOA_5',	
 										  'EMAIL_CC', 'EMAIL_REMITENTE', 'EMAIL_CONTACTO', 'NOMBRE']
@@ -54,20 +55,29 @@ class MyFrame(wx.Frame):
 							for columna in fila:
 								self.columna_excel.append(columna.value)
 
+							#Campos agregados de cod_instalacion
 							self.columna_excel.insert(1, ' ')
 							self.columna_excel.insert(2, ' ')
 							self.columna_excel.insert(3, ' ')
 							self.columna_excel.insert(4, ' ')
 
+							#Campos agregados de concesionario
 							self.columna_excel.insert(9, ' ')
 							self.columna_excel.insert(10, ' ')
 							self.columna_excel.insert(11, ' ')
 							self.columna_excel.insert(12, ' ')
 
+							#Campos agregados de objectivo_AOA
 							self.columna_excel.insert(14, ' ')
 							self.columna_excel.insert(15, ' ')
 							self.columna_excel.insert(16, ' ')
 							self.columna_excel.insert(17, ' ')
+
+							#Campos agregados de objectivo_AO
+							self.columna_excel.insert(6, ' ')
+							self.columna_excel.insert(7, ' ')
+							self.columna_excel.insert(8, ' ')
+							self.columna_excel.insert(9, ' ')
 
 							
 							
@@ -86,15 +96,18 @@ class MyFrame(wx.Frame):
 					y=1
 					x=9
 					w=14
+					t=2
 					nombreImpacto=''
+					#print(self.todas_columnas[0])
 					for registro in self.todas_columnas:
 						#print(registro)
-						if email == registro[6]:
+						if email == registro[10]:
 							# print(registro[0])
 							# print(self.registros_excel_final[i][0])
 							self.registros_excel_final[i][y] = registro[0]
-							self.registros_excel_final[i][x] = registro[8]
-							self.registros_excel_final[i][w] = registro[13]
+							self.registros_excel_final[i][x] = registro[12]
+							self.registros_excel_final[i][w] = registro[17]
+							self.registros_excel_final[i][t] = registro[1]
 
 							if registro[7].title() != nombreImpacto.title():
 								self.registros_excel_final[i][7] = ''
@@ -105,11 +118,11 @@ class MyFrame(wx.Frame):
 						else:
 							#print(registro)
 							
-							email=registro[6]
+							email=registro[10]
 							#print(email)
-							if registro[7] is not None:
-								registro[7] = registro[7].title()
-								nombreImpacto=registro[7].title()
+							if registro[11] is not None:
+								registro[11] = registro[11].title()
+								nombreImpacto=registro[11].title()
 							self.registros_excel_final.append(registro)
 							# print(nombreImpacto)
 							i=i+1
@@ -118,7 +131,7 @@ class MyFrame(wx.Frame):
 							w=14
 
 						#print(self.registros_excel_final[0])
-					print(i)
+					#print(i)
 
 					#Creando el excel de salida
 					book = Workbook()
@@ -129,43 +142,60 @@ class MyFrame(wx.Frame):
 					# 		print(len(countRegistro[2]))
 
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
-					insercionExcel = 0
+					insercionExcel = 1
 					for regs in self.registros_excel_final:
-							print(regs[20])
 							if insercionExcel != 0:
-								regs = 	[regs[6],
-										regs[0],
-										regs[1],
-										regs[2],
-										regs[3],
-										regs[4],
-										regs[5],
-										regs[13],
-										regs[14],
-										regs[15],
-										regs[16],
-										regs[17],
-										regs[8],
-										regs[9],
-										regs[10],
-										regs[11],
-										regs[12],
-										regs[18],
-										regs[19],
-										regs[7]]
+
+								regs = 	[regs[10], #email
+											#cod_instalacion
+										 regs[0],
+										 regs[1],
+										 regs[2],
+										 regs[3],
+										 regs[4],
+
+										 #nombre_codigo
+										 regs[5],
+										 regs[6],
+										 regs[7],
+										 regs[8],
+										 regs[9],
+
+										 #obj_ao
+										 regs[17],
+										 regs[18],
+										 regs[19],
+										 regs[20],
+										 regs[21],
+
+										 #obj_aoa
+										 regs[12],
+										 regs[13],
+										 regs[14],
+										 regs[15],
+										 regs[16],
+
+										 #email_cc
+										 regs[22],
+
+										 regs[23],
+										 regs[24],
+										 regs[11]]
+								print(regs)
 								y=1
-								#print(regs[19])
 								for reg in regs:
 									#print(reg)
 									celda = hoja1.cell(row=self.z, column=y).value = reg
 									y+=1
 								self.z+=1
 							else:
+								print(regs)
 								sig=1
 								for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
 										  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
 										  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
-										  self.fields[17], self.fields[18], self.fields[19], self.fields[20]]:
+										  self.fields[17], self.fields[18], self.fields[19], self.fields[20], self.fields[21],
+										  self.fields[22], self.fields[23], self.fields[24]]:
 										  celda = hoja1.cell(row=1, column=sig).value = i
 										  sig=sig+1
 								insercionExcel+=1
