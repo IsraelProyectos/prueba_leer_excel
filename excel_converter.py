@@ -3,8 +3,7 @@
 
 import wx
 from openpyxl import *
-from openpyxl.styles import Color, PatternFill, Font, Border
-import unicodedata
+from openpyxl.styles import Color, PatternFill, Font, Border, colors, borders, Side
 
 class MyFrame(wx.Frame):
             def __init__(self, parent, title):
@@ -27,13 +26,14 @@ class MyFrame(wx.Frame):
                   self.registro_excel_final = [ ]
                   self.registros_excel_final =[ ]
                   self.fields = ['EMAIL', 'CODIGO_1', 'CODIGO_2', 'CODIGO_3', 'CODIGO_4', 'CODIGO_5', 'NOMBRE_CODIGO_1',
-                  						  'NOMBRE_CODIGO_2', 'NOMBRE_CODIGO_3', 'NOMBRE_CODIGO_4', 'NOMBRE_CODIGO_5' 	
+                  						  'NOMBRE_CODIGO_2', 'NOMBRE_CODIGO_3', 'NOMBRE_CODIGO_4', 'NOMBRE_CODIGO_5', 	
 										  'OBJ_AO_1', 'OBJ_AO_2', 'OBJ_AO_3', 'OBJ_AO_4', 'OBJ_AO_5', 
 										  'OBJ_AOA_1', 'OBJ_AOA_2',	'OBJ_AOA_3', 'OBJ_AOA_4', 'OBJ_AOA_5',	
 										  'EMAIL_CC', 'EMAIL_REMITENTE', 'EMAIL_CONTACTO', 'NOMBRE']
                   self.email = ""
                   self.i = 0
-                  self.z = 1
+                  self.z = 2
+                  self.columnaDelExcel = 1
                   self.Centre(True)
                   self.SetBackgroundColour(wx.Colour( 252, 255, 228))
                   self.Show(True)
@@ -90,21 +90,18 @@ class MyFrame(wx.Frame):
 							self.i +=1
 						
 						i=i+1
-
-					self.todas_columnas_str = " ".join(self.todas_columnas)
-					print(self.todas_columnas_str)
-
+					# print(self.todas_columnas[0])
 					#print(self.todas_columnas)
 					email='hola'
 					i=-1
 					y=1
-					x=9
-					w=14
+					x=13
+					w=18
 					t=6
 					nombreImpacto=''
-					#print(self.todas_columnas[0])
+
 					for registro in self.todas_columnas:
-						#print(registro[5])
+						
 						if email == registro[10]:
 							# print(registro[0])
 							# print(self.registros_excel_final[i][0])
@@ -112,15 +109,10 @@ class MyFrame(wx.Frame):
 							self.registros_excel_final[i][y] = registro[0]
 							self.registros_excel_final[i][x] = registro[12]
 							self.registros_excel_final[i][w] = registro[17]
-							if t==7:
-								# print(t)
-								# print('hola')
-								self.registros_excel_final[i][7]
-							else:
-								self.registros_excel_final[i][t] = registro[5]
+							self.registros_excel_final[i][t] = registro[5]
 
-							if registro[7].title() != nombreImpacto.title():
-								self.registros_excel_final[i][7] = ''
+							# if registro[7].title() != nombreImpacto.title():
+							# 	self.registros_excel_final[i][7] = ''
 							
 							x=x+1
 							y=y+1
@@ -139,82 +131,73 @@ class MyFrame(wx.Frame):
 							# print(nombreImpacto)
 							i=i+1
 							y=1
-							x=9
-							w=14
+							x=13
+							w=18
 							t=6
-					print(self.registros_excel_final[0])
+						#print(self.registros_excel_final[0])
 						#print(self.registros_excel_final)
 
-					#print(self.registros_excel_final[8])
+					# print(self.registros_excel_final[0])
 					#print(i)
 
 					#Creando el excel de salida
 					book = Workbook()
 					hoja1 = book.active
+					
+					
 
 					# for countRegistro in self.registros_excel_final:
 					# 	for countReg in countRegistro:
 					# 		print(len(countRegistro[2]))
 
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
-					insercionExcel = 1
+					insercionExcel = 0
 					#print(self.registros_excel_final[0])
 					for regs in self.registros_excel_final:
-							# if insercionExcel != 0:
 
-							# 	regsInverse = 	[regs[10], #email
-							# 				#cod_instalacion
-							# 			 regs[0],
-							# 			 regs[1],
-							# 			 regs[2],
-							# 			 regs[3],
-							# 			 regs[4],
-
-							# 			 #nombre_codigo
-							# 			 regs[5],
-							# 			 regs[6],
-							# 			 regs[7],
-							# 			 regs[8],
-							# 			 regs[9],
-
-							# 			 #obj_ao
-							# 			 regs[17],
-							# 			 regs[18],
-							# 			 regs[19],
-							# 			 regs[20],
-							# 			 regs[21],
-
-							# 			 #obj_aoa
-							# 			 regs[12],
-							# 			 regs[13],
-							# 			 regs[14],
-							# 			 regs[15],
-							# 			 regs[16],
-
-							# 			 #email_cc
-							# 			 regs[22],
-
-							# 			 regs[23],
-							# 			 regs[24],
-							# 			 regs[11]]
-								#print(regs[10])
+							if insercionExcel != 0:
+								if insercionExcel != 0:
+									regsInverse = [
+									regs[10],
+									regs[0],
+									regs[1],
+									regs[2],
+									regs[3],
+									regs[4],
+									regs[5],
+									regs[6],
+									regs[7],
+									regs[8],
+									regs[9],
+									regs[17],
+									regs[18],
+									regs[19],
+									regs[20],
+									regs[21],
+									regs[12],
+									regs[13],
+									regs[14],
+									regs[15],
+									regs[16],
+									regs[22],
+									regs[23],
+									regs[24],
+									regs[11]]
 								y=1
-								for reg in regs:
-									#print(reg)
+								for reg in regsInverse:
 									celda = hoja1.cell(row=self.z, column=y).value = reg
 									y+=1
 								self.z+=1
-							# else:
-							# 	print(regs)
-							# 	sig=1
-							# 	for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
-							# 			  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
-							# 			  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
-							# 			  self.fields[17], self.fields[18], self.fields[19], self.fields[20], self.fields[21],
-							# 			  self.fields[22], self.fields[23], self.fields[24]]:
-							# 			  celda = hoja1.cell(row=1, column=sig).value = i
-							# 			  sig=sig+1
-							# 	insercionExcel+=1
+							else:
+								sig=1
+								for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
+										  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
+										  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
+										  self.fields[17], self.fields[18], self.fields[19], self.fields[20], self.fields[21],
+										  self.fields[22], self.fields[23], self.fields[24]]:
+										  celda = hoja1.cell(row=1, column=sig).value = i
+										  sig=sig+1
+								insercionExcel+=1
 
 					#print(self.registros_excel_final)
 					#Guardando el WorkBook donde seleccione el Usuario
@@ -226,6 +209,15 @@ class MyFrame(wx.Frame):
 					  pathname = fileDialog.GetPath()
 					  try:
 					  	with open(pathname, 'w') as file:
+					  		colorFill = PatternFill(start_color='A8A8A8', end_color='A8A8A8', fill_type='solid')
+							font = Font(color=colors.BLACK, italic=True, bold=True)
+							border = Border(left=Side(style='thin'),right=Side(style='thin'),top=Side(style='thin'),bottom=Side(style='thin'))
+							# hoja1['A1':'Y1'].fill = redFill
+							# hoja1['A1':'Y1'].font = Font(color=colors.BLACK, italic=True, bold=True)
+							for cell in hoja1["1:1"]:
+								cell.font = font
+								cell.fill = colorFill
+								cell.border = border
 					  		book.save(pathname)
 					  except IOError:
 					  	wx.LogError("Cannot save current data in file '%s'." % pathname)
