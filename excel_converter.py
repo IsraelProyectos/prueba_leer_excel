@@ -111,8 +111,8 @@ class MyFrame(wx.Frame):
 							self.registros_excel_final[i][w] = registro[17]
 							self.registros_excel_final[i][t] = registro[5]
 
-							# if registro[7].title() != nombreImpacto.title():
-							# 	self.registros_excel_final[i][7] = ''
+							if registro[11].title() != nombreImpacto.title():
+								self.registros_excel_final[i][11] = ''
 							
 							x=x+1
 							y=y+1
@@ -153,10 +153,15 @@ class MyFrame(wx.Frame):
 					#Recorriendo los registros con el mismo mail y insertandolos en el Excel creado anteriormente
 					insercionExcel = 0
 					#print(self.registros_excel_final[0])
+					sig=1
+					for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
+							  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
+							  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
+							  self.fields[17], self.fields[18], self.fields[19], self.fields[20], self.fields[21],
+							  self.fields[22], self.fields[23], self.fields[24]]:
+							  celda = hoja1.cell(row=1, column=sig).value = i
+							  sig=sig+1
 					for regs in self.registros_excel_final:
-
-							if insercionExcel != 0:
-								if insercionExcel != 0:
 									regsInverse = [
 									regs[10],
 									regs[0],
@@ -183,21 +188,12 @@ class MyFrame(wx.Frame):
 									regs[23],
 									regs[24],
 									regs[11]]
-								y=1
-								for reg in regsInverse:
-									celda = hoja1.cell(row=self.z, column=y).value = reg
-									y+=1
-								self.z+=1
-							else:
-								sig=1
-								for i in [self.fields[0], self.fields[1], self.fields[2], self.fields[3], self.fields[4], self.fields[5], self.fields[6],	
-										  self.fields[7], self.fields[8], self.fields[9], self.fields[10], self.fields[11], 
-										  self.fields[12], self.fields[13], self.fields[14], self.fields[15], self.fields[16],	
-										  self.fields[17], self.fields[18], self.fields[19], self.fields[20], self.fields[21],
-										  self.fields[22], self.fields[23], self.fields[24]]:
-										  celda = hoja1.cell(row=1, column=sig).value = i
-										  sig=sig+1
-								insercionExcel+=1
+									y=1
+									for reg in regsInverse:
+										celda = hoja1.cell(row=self.z, column=y).value = reg
+										y+=1
+									self.z+=1
+
 
 					#print(self.registros_excel_final)
 					#Guardando el WorkBook donde seleccione el Usuario
